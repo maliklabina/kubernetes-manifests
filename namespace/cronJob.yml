@@ -1,0 +1,23 @@
+kind: CronJob
+apiVersion: batch/v1
+metadata:
+  name: demo-cronjob
+  namespace: nginx
+spec:
+  schedule: "* * * * *"
+  jobTemplate:                  
+    spec:
+      completions: 1
+      parallelism: 1
+      template:
+        metadata:
+          name: demo-cronjob-pod
+          labels:
+            app: cron-batch-task
+
+        spec:
+          containers:
+          - name: cron-batch-container
+            image: busybox:latest
+            command: ["sh", "-c", "echo 'Hello from CronJob!' && sleep 30"]
+          restartPolicy: Never
