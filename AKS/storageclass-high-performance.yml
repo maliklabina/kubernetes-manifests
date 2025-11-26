@@ -1,0 +1,15 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: high-performance
+  labels:
+    tier: production
+    performance: high
+provisioner: disk.csi.azure.com
+parameters:
+  skuName: Premium_LRS        
+  kind: managed
+  cachingMode: ReadOnly       
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+allowVolumeExpansion: true

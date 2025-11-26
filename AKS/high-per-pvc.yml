@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prod-pvc
+  labels:
+    environment: production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: high-performance
+  resources:
+    requests:
+      storage: 20Gi

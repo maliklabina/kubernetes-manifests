@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc2
+  labels:
+    environment: production
+    purpose: secondary-storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: cost-effective
+  resources:
+    requests:
+      storage: 20Gi

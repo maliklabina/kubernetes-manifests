@@ -1,0 +1,15 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: cost-effective
+  labels:
+    tier: cost-saving
+    purpose: general-use
+provisioner: disk.csi.azure.com
+parameters:
+  skuName: StandardSSD_LRS   
+  kind: managed
+  cachingMode: ReadOnly           
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
