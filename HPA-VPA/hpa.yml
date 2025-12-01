@@ -1,0 +1,40 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: apache-hpa
+  namespace: apache
+spec:
+  scaleTargetRef:        # What to scale
+    kind: Deployment
+    name: apache-deployment
+    apiVersion: apps/v1
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 40
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 15
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 15
+      - type: Pods
+        value: 1
+        periodSeconds: 15
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 15
+      - type: Pods
+        value: 1
+        periodSeconds: 15
+      selectPolicy: Max

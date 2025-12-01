@@ -1,8 +1,8 @@
 kind: Namespace 
 apiVersion: v1
 metadata:
-  name: nginx
+  name: apache
 
 
   
- 
+

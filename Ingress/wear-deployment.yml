@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wear-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wear
+  template:
+    metadata:
+      labels:
+        app: wear
+    spec:
+      containers:
+      - name: wear
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
