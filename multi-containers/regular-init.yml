@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: init-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: init-example
+  template:
+    metadata:
+      labels:
+        app: init-example
+    spec:
+      initContainers:
+      - name: regular-init
+        image: busybox
+        command: ["sh", "-c", "echo 'Init container running...'; sleep 5"]
+
+      containers:
+      - name: regular-main
+        image: nginx
+        ports:
+        - containerPort: 80
+

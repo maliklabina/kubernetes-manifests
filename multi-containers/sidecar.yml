@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidecar-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidecar
+  template:
+    metadata:
+      labels:
+        app: sidecar
+    spec:
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+
+      containers:
+      - name: sidecar-main
+        image: nginx
+        volumeMounts:
+        - name: shared-data
+          mountPath: /usr/share/nginx/html
+
+      - name: sidecar
+        image: busybox
+        volumeMounts:
+        - name: shared-data
+          mountPath: /data
+        command: ["sh", "-c", "while true; do echo 'Updated: $(date)' > /data/index.html; sleep 5; done"]

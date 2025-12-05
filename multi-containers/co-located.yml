@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: colocated-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: colocated
+  template:
+    metadata:
+      labels:
+        app: colocated
+    spec:
+      containers:
+      - name: co-located-main
+        image: nginx
+        ports:
+        - containerPort: 80
+
+      - name: co-located-helper
+        image: busybox
+        command: ["sh", "-c", "while true; do echo 'Co-located helper running'; sleep 5; done"]
