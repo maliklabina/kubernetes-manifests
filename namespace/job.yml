@@ -4,8 +4,8 @@ metadata:
   name: demo-job
   namespace: nginx
 spec:
-  completions: 1
-  parallelism: 1
+  completions: 1 # Number of successful completions required
+  parallelism: 1 # Number of pods to run in parallel
   template:
     metadata:
       name: demo-job-pod
@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: batch-container
-        image: busybox:latest
+        image: busybox:latest 
         command: ["sh", "-c", "echo 'Hello, Kubernetes!' && sleep 30"]
       restartPolicy: Never       

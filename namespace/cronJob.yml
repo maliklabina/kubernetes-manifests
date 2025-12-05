@@ -4,7 +4,7 @@ metadata:
   name: demo-cronjob
   namespace: nginx
 spec:
-  schedule: "* * * * *"
+  schedule: "* * * * *" # Runs every minute
   jobTemplate:                  
     spec:
       completions: 1
@@ -16,8 +16,8 @@ spec:
             app: cron-batch-task
 
         spec:
-          containers:
-          - name: cron-batch-container
+          containers: # Containers to run in the CronJob pod
+          - name: cron-batch-container 
             image: busybox:latest
             command: ["sh", "-c", "echo 'Hello from CronJob!' && sleep 30"]
-          restartPolicy: Never
+          restartPolicy: Never # Do not restart completed jobs

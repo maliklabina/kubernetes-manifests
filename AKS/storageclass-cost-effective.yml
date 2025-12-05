@@ -1,15 +1,15 @@
-apiVersion: storage.k8s.io/v1
+apiVersion: storage.k8s.io/v1 # API version for StorageClass
 kind: StorageClass
 metadata:
   name: cost-effective
   labels:
-    tier: cost-saving
+    tier: cost-saving 
     purpose: general-use
-provisioner: disk.csi.azure.com
+provisioner: disk.csi.azure.com # CSI driver for Azure Disk
 parameters:
   skuName: StandardSSD_LRS   
   kind: managed
-  cachingMode: ReadOnly           
-reclaimPolicy: Delete
-volumeBindingMode: Immediate
-allowVolumeExpansion: true
+  cachingMode: ReadOnly # Caching mode for cost-effective storage          
+reclaimPolicy: Delete # Delete the volume when released
+volumeBindingMode: Immediate # This will bind volume immediately
+allowVolumeExpansion: true # Allow volume expansion

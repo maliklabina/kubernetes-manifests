@@ -2,11 +2,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-wear-watch
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
+  annotations: 
+    kubernetes.io/ingress.class: "nginx" # Specifying NGINX Ingress controller
 spec:
-  rules:
-  - http:
+  rules: # routing rules
+  - http: # HTTP routing
       paths:
       - path: /wear
         pathType: Prefix

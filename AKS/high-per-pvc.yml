@@ -6,7 +6,7 @@ metadata:
     environment: production
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce # Allows the volume to be mounted as read-write by a single node
   storageClassName: high-performance
   resources:
     requests:
