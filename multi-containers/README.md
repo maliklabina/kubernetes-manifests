@@ -24,47 +24,39 @@ This Deployment demonstrates a normal multi-container Pod, where all containers 
 - Both containers run in parallel.
 - Both stay running for the entire lifespan of the Pod.
 - Ideal for workloads that must work side-by-side, such as:
-  - log shippers
   - workers
   - helper daemons
-  - heartbeat containers
+
 
 ---
 # Sidecar Pattern
-Sidecar containers add functionality to the main container.
-They run in parallel with the main application.
+Sidecar Starts first , does the job and continue to run with the application
 ## Container Names Used:
 sidecar-main
 sidecar
 ## How They Work
-- sidecar-main serves an NGINX website using /usr/share/nginx/html.
-- sidecar writes timestamps into a shared volume every 5 seconds.
-- Both containers share an emptyDir volume.
-- Both containers must be healthy for the Pod to stay running.
+- Sidecar Starts first ,
+- Both stay running for the entire lifespan of the Pod.
 ## Use Cases
 - Log processors
 - Sync agents
 - Monitoring agents
-- File updaters
-- Reverse proxies
 
 ---
 # Init-Container Pattern
-File: init-deployment.yaml
 Init containers run before the main containers start.
-They perform setup tasks, validations, configuration, or waiting operations.
+They perform setup tasksa, and end.
 ## Container Names Used:
 Init container: regular-init
 Main container: regular-main
 ## How They Work
-- Init container (regular-init) runs once → completes → exits.
+- Init container runs once → completes → exits.
 - Pod then launches regular-main.
 - Init container never runs again unless the entire Pod restarts.
 ## Use Cases
 - Waiting for a DB
 - Downloading configs
-- Preparing volumes
-- Pre-processing files
+
 
 
 
