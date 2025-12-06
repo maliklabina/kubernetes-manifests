@@ -1,75 +1,66 @@
-# Kubernetes Taints and Tolerations — README
+# Kubernetes Manifests Collection
 
-Taints and tolerations in Kubernetes allow you to **control which pods can be scheduled on which nodes**.  
-They are used to repel or attract pods to specific nodes based on rules.
-
----
-
-## Key Concepts
-
-| Term | Description |
-|------|-------------|
-| **Node Taint** | Applied to a **node** to repel pods that do not tolerate it. |
-| **Pod Toleration** | Applied to a **pod** to allow it to be scheduled on tainted nodes. |
-| **Person** | Analogy: “person” → pod |
-| **Bug** | Analogy: pod can be tolerant or intolerant |
+This repository contains various Kubernetes manifest files organized by topic and use case.
 
 ---
 
-## Applying a Taint to a Node
+## Directory Structure
 
-```bash
-kubectl taint nodes <node-name> <key>=<value>:<effect>
-```
+- **AKS**  
+  Manifests specific to Azure Kubernetes Service (AKS) deployments and configurations.
 
+- **DaemonSet**  
+  YAML files to deploy DaemonSets, which ensure a pod runs on every node.
 
-### Example:
-```bash
-kubectl taint nodes node1 dedicated=high-priority:NoSchedule
-```
+- **ENV_Value_Types**  
+  Examples of different ways to pass environment variables into pods and containers.
 
+- **Health-probes**  
+  Manifests demonstrating liveness, readiness, and startup probes to monitor container health.
 
+- **HPA-VPA**  
+  Horizontal Pod Autoscaler (HPA) and Vertical Pod Autoscaler (VPA) configurations for automatic scaling.
 
-## Taint Effects
+- **Ingress**  
+  Files defining Ingress resources for routing external traffic to services inside the cluster.
 
--  NoSchedule
+- **multi-containers**  
+  Example manifests showing pods or deployments with multiple containers.
 
-    - Pods that do not tolerate the taint will not be scheduled on this node.
+- **namespace**  
+  Namespace definitions to logically isolate Kubernetes resources.
 
--  PreferNoSchedule
+- **NodeAffinity**  
+  Configurations using node affinity to control pod scheduling based on node labels.
 
-    - Scheduler will try to avoid placing pods on this node, but it is not mandatory.
+- **persistentVolumes**  
+  Manifests for PersistentVolumes and PersistentVolumeClaims to manage storage.
 
--  NoExecute
+- **ReplicaSet**  
+  Examples of ReplicaSet resources that maintain a stable number of pod replicas.
 
-    - Pods that do not tolerate the taint will be evicted if already running.
+- **Services**  
+  Service manifests for exposing pods internally or externally.
 
-    - Prevents new pods without toleration from being scheduled on the node.
+- **Taints-Tolerations**  
+  Configurations demonstrating taints on nodes and tolerations in pods to control scheduling.
 
+---
 
-## yaml
-```bash
-apiVersion: v1
-kind: Pod
-metadata:
-  name: tolerant-pod
-spec:
-  containers:
-  - name: app
-    image: nginx
-  tolerations:
-  - key: "dedicated"
-    operator: "Equal"
-    value: "high-priority"
-    effect: "NoSchedule"
-```
+## Usage
 
+- Each folder contains YAML manifest files relevant to the topic.  
+- Apply manifests using `kubectl apply -f <folder_or_file>` command.  
+- Modify manifests as needed to suit your Kubernetes cluster and application requirements.
 
+---
 
-### Problems 
+## Notes
 
-- Pods can still go to nodes without a matching toleration if:
+- These manifests cover foundational Kubernetes concepts and are useful for learning, testing, and real-world deployments.  
+- Review and adjust resource names, labels, and configurations before deploying to production environments.
 
-    - No other suitable nodes are available
+---
 
-    - Scheduler ignores soft preferences (PreferNoSchedule)
+Feel free to explore each folder for detailed examples and best practices!
+

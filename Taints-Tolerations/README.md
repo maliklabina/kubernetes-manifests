@@ -60,7 +60,54 @@ spec:
 
 Labels group nodes based on size, type,env, etc. Unlike taints, labels don't directly affect scheduling but are useful for organizing resources.
 
-### Limitations to Remember 
 
-Taints and tolerations are powerful tools, but they have limitations. They cannot handle complex expressions like "AND" or "OR." 
-So, what do we use in that case? We use a combination of Taints, tolerance, and Node affinity, which we will discuss in the next video.
+## Key Concepts
+
+| Term | Description |
+|------|-------------|
+| **Node Taint** | Applied to a **node** to repel pods that do not tolerate it. |
+| **Pod Toleration** | Applied to a **pod** to allow it to be scheduled on tainted nodes. |
+| **Person** | Analogy: “person” → pod |
+| **Bug** | Analogy: pod can be tolerant or intolerant |
+
+---
+
+## Applying a Taint to a Node
+
+```bash
+kubectl taint nodes <node-name> <key>=<value>:<effect>
+```
+
+
+### Example:
+```bash
+kubectl taint nodes node1 dedicated=high-priority:NoSchedule
+```
+
+
+
+## Taint Effects
+
+-  NoSchedule
+
+    - Pods that do not tolerate the taint will not be scheduled on this node.
+
+-  PreferNoSchedule
+
+    - Scheduler will try to avoid placing pods on this node, but it is not mandatory.
+
+-  NoExecute
+
+    - Pods that do not tolerate the taint will be evicted if already running.
+
+    - Prevents new pods without toleration from being scheduled on the node.
+
+
+
+### Problems 
+
+- Pods can still go to nodes without a matching toleration if:
+
+    - No other suitable nodes are available
+
+    - Scheduler ignores soft preferences (PreferNoSchedule)
